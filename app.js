@@ -28,7 +28,7 @@ app.get("/efener",(req,res,next)=>
 
 
 app.get("/api/get-array", async(req, res, next) => {
-  let userDataArray = await User.find();
+  let userDataArray = await User.aggregate([{$group: {"_id":{number:"$number",name:"$name"}}}]);
   res.json({ data: userDataArray });
 });
 
