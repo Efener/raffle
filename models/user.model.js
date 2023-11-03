@@ -11,7 +11,7 @@ const userSchema = new Schema({
         required:true
     }
 });
-
+userSchema.index({number: 1}, {unique: true})
 
 const userModel = mongoose.model('User', userSchema);
 
