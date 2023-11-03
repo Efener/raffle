@@ -70,7 +70,7 @@ app.post("/api/saveUserData", async (req, res, next) => {
 
 
 
-const PORT = 80;
+const PORT = 3000;
 
 app.listen(PORT, () => {
 
