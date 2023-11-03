@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kullanıcı Bilgi Girişi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="sex">
+        <h1>Kullanıcı Bilgi Girişi</h1>
+        <form id="userForm">
+            <label for="name">İsim:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="schoolNumber">Okul Numarası:</label>
+            <input type="text" id="schoolNumber" name="schoolNumber" required>
+            <br>
+            <button type="button" onclick="submitForm()">Gönder</button>
+        </form>
+    </div>
+
+    <script>
+        function submitForm() {
+            const name = document.getElementById('name').value;
+            const schoolNumber = document.getElementById('schoolNumber').value;
+
+            const userData = {
+                name: name,
+                schoolNumber: schoolNumber
+            };
+
+            fetch('/api/saveUserData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Bilgiler başarıyla kaydedildi.');
+                document.getElementById("sex").style.display = "none";
+            })
+            .catch(error => {
+                console.error('Hata oluştu: ', error);
+                alert('Bilgiler kaydedilemedi.');
+            });
+        }
+    </script>
+</body>
+</html>

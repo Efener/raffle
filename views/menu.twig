@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Çekiliş</title>
+</head>
+<body>
+    <h1>Çekilişe Katılanlar</h1>
+    <ul id="arrayList">
+        <!-- Backend'den çekilen array elemanları burada JavaScript ile doldurulacak -->
+    </ul>
+    <button id="selectWinner">Rastgele Kazananı Seç</button>
+    <div id="winnerResult"></div>
+
+    <script>
+        let arrayList = document.getElementById("arrayList");
+        let selectWinnerButton = document.getElementById("selectWinner");
+        let winnerResult = document.getElementById("winnerResult");
+
+        // Fetch API ile backendArray'ı çekme
+        fetch('/api/get-array')
+        .then(response => response.json())
+        .then(data => {
+            data.data.forEach(item => {
+                var listItem = document.createElement("li");
+                listItem.textContent = `İsim: ${item.name}, Okul Numarası: ${item.number}`;
+                arrayList.appendChild(listItem);
+            });
+
+            // Butona basıldığında rastgele bir kullanıcı seçme
+            selectWinnerButton.addEventListener("click", () => {
+                if (data.data.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * data.data.length);
+                    const randomWinner = data.data[randomIndex];
+                    winnerResult.textContent = `Rastgele Kazanan: İsim: ${randomWinner.name}, Okul Numarası: ${randomWinner.number}`;
+                } else {
+                    winnerResult.textContent = "Çekilişe katılan kullanıcı yok.";
+                }
+            });
+        })
+        .catch(error => console.error('Veri alınamadı:', error));
+    </script>
+</body>
+</html>
