@@ -78,8 +78,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert('Bilgiler başarıyla kaydedildi.');
-                document.getElementById("sex").style.display = "none";
+                alert(data.message);
+                console.log(data.message.slice(0,3))
+                if(data.message === 'Bil')
+                    document.getElementById("sex").style.display = "none";
             })
             .catch(error => {
                 console.error('Hata oluştu: ', error);
