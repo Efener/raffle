@@ -33,9 +33,22 @@ app.get("/api/get-array", async(req, res, next) => {
 });
 
 
-app.post("/api/saveUserData", (req, res, next) => {
+app.post("/api/saveUserData", async (req, res, next) => {
   const userData = req.body;
 
+  // Check if a user with the same name or number already exists in the database
+  const existingUser = await User.findOne({
+    $or: [
+      { name: userData.name },
+      { number: userData.schoolNumber }
+    ]
+  });
+
+  if (existingUser) {
+    return res.status(400).json({ message: 'Bu isim veya numara zaten kayıtlı.' });
+  }
+
+  // If the user doesn't already exist, save the data
   const newUser = new User({
     name: userData.name,
     number: userData.schoolNumber
@@ -50,6 +63,7 @@ app.post("/api/saveUserData", (req, res, next) => {
       res.status(500).json({ message: 'Bir hata oluştu, veri kaydedilemedi.' });
     });
 });
+
 
 
 
