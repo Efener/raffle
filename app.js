@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const User = require('./models/user.model');
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://127.0.0.1/my-database",{
+mongoose.connect("mongodb://127.0.0.1/user-database",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }).then(() => {
