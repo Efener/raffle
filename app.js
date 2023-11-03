@@ -49,19 +49,18 @@ app.post("/api/saveUserData", async (req, res, next) => {
   } */
 
   // If the user doesn't already exist, save the data
-  const newUser = new User({
-    name: userData.name,
-    number: userData.schoolNumber
-  });
-
-  newUser.save()
-    .then(() => {
-      res.json({ message: 'Bilgiler başarıyla kaydedildi.' });
-    })
-    .catch(error => {
-      console.error(error);
-      res.status(500).json({ message: 'Bir hata oluştu, veri kaydedilemedi.' });
+  try {
+    const newUser = await User.create({
+      name: userData.name,
+      number: userData.schoolNumber
     });
+    console.log(newUser)
+    res.json({ message: 'Bilgiler başarıyla kaydedildi.' });
+  } catch(error) {
+    console.error(error);
+    res.status(500).json({ message: 'Bir hata oluştu, veri kaydedilemedi.' });
+  }
+
 });
 
 
